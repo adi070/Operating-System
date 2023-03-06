@@ -1,0 +1,40 @@
+STARVE FREE READERS WRITERS PROBLEM
+
+We will intiliaze 3 binary semaphores mutex(1) wrt(1) and turn(1) and one integer variable readcount(0) 
+• Semaphore
+– turn – turn semaphore is used to coordinate access to the shared resource, ensuring that threads wait for their turn in a fair manner.
+– mutex – mutual exclusion semaphore for updating readcount variable
+– wrt - mutual exclusion semaphore for writers
+– User by first or last reader enters or exists
+• Initially
+– mutex = 1, wrt = 1,turn=1.
+– readcount = 0 // how many are reading
+
+
+
+
+Reader Process :
+wait(turn);
+wait(mutex);
+readcount++;
+if (readcount == 1) wait(wrt);
+signal(mutex);
+signal(turn);
+…
+reading is performed
+…
+wait(mutex);
+readcount--;
+if (readcount == 0) signal(wrt);
+signal(mutex);
+
+
+
+Writer Process :
+wait(turn);
+wait(wrt);
+…
+writing is performed
+…
+signal(wrt);
+signal(turn);
